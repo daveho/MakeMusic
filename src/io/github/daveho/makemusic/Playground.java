@@ -14,6 +14,14 @@ public class Playground {
 		// FIXME: hard-coded stuff
 		CompositionData compositionData = new CompositionData();
 		
+		addMetronomeTrack(compositionData);
+		addPlayLiveTrack(compositionData);
+		
+		CompositionPlayer player = new CompositionPlayer(compositionData);
+		player.play(ac);
+	}
+
+	private void addMetronomeTrack(CompositionData compositionData) {
 		TrackData td = new TrackData();
 		
 		MetronomeData md = new MetronomeData();
@@ -26,9 +34,22 @@ public class Playground {
 		td.setEffectsChainData(ecd);
 		
 		compositionData.addTrackData(td);
+	}
+	
+	public void addPlayLiveTrack(CompositionData compositionData) {
+		TrackData td = new TrackData();
 		
-		CompositionPlayer player = new CompositionPlayer(compositionData);
-		player.play(ac);
+		PlayLiveData plmgd = new PlayLiveData();
+		plmgd.setProperty("patch", 54);
+		td.setMessageGeneratorData(plmgd);
+		
+		GervillData gd = new GervillData();
+		td.setSynthData(gd);
+		
+		EffectsChainData ecd = new EffectsChainData();
+		td.setEffectsChainData(ecd);
+		
+		compositionData.addTrackData(td);
 	}
 	
 	public static void main(String[] args) throws MidiUnavailableException {

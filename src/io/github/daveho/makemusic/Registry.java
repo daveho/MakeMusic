@@ -19,6 +19,7 @@ public class Registry {
 		
 		// TODO: use reflection/annotations to find these automatically
 		messageGenerators.add(new Metronome());
+		messageGenerators.add(new PlayLive());
 		synths.add(new GervillSynth());
 	}
 	
