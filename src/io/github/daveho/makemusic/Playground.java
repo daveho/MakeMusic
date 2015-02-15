@@ -1,33 +1,34 @@
 package io.github.daveho.makemusic;
 
-import java.util.Collections;
-
 import javax.sound.midi.MidiUnavailableException;
 
-import io.github.daveho.gervill4beads.CaptureMidiMessages;
-import io.github.daveho.gervill4beads.GervillUGen;
-import io.github.daveho.gervill4beads.MidiMessageSource;
 import net.beadsproject.beads.core.AudioContext;
 
 public class Playground {
-	protected AudioContext ac;
-	protected MidiMessageSource midiSource;
-	protected GervillUGen gervill;
-	
 	public Playground() {
-		ac = new AudioContext();
 	}
 	
-	public void start() throws MidiUnavailableException {
-		midiSource = new MidiMessageSource(ac);
-		CaptureMidiMessages.getMidiInput(midiSource);
+	public void start() {
+		AudioContext ac = new AudioContext();
 		
-		gervill = new GervillUGen(ac, Collections.emptyMap());
-		midiSource.addMessageListener(gervill);
+		// FIXME: hard-coded stuff
+		CompositionData compositionData = new CompositionData();
 		
-		ac.out.addInput(gervill);
+		TrackData td = new TrackData();
 		
-		ac.start();
+		MetronomeData md = new MetronomeData();
+		td.setMessageGeneratorData(md);
+		
+		GervillData gd = new GervillData();
+		td.setSynthData(gd);
+		
+		EffectsChainData ecd = new EffectsChainData();
+		td.setEffectsChainData(ecd);
+		
+		compositionData.addTrackData(td);
+		
+		CompositionPlayer player = new CompositionPlayer(compositionData);
+		player.play(ac);
 	}
 	
 	public static void main(String[] args) throws MidiUnavailableException {
