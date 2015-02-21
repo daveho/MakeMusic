@@ -1,5 +1,6 @@
 package io.github.daveho.makemusic.playback;
 
+import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.ShortMessage;
 
@@ -14,6 +15,7 @@ import net.beadsproject.beads.core.Bead;
 public class PlayLive implements MessageGenerator {
 	private PlayLiveData data;
 	private ReceivedMidiMessageSource midiSource;
+	private MidiDevice device;
 
 	@Override
 	public Class<? extends MMData> getDataType() {
@@ -32,7 +34,7 @@ public class PlayLive implements MessageGenerator {
 	public void setAudioContext(AudioContext ac) {
 		midiSource = new ReceivedMidiMessageSource(ac);
 		try {
-			CaptureMidiMessages.getMidiInput(midiSource);
+			this.device = CaptureMidiMessages.getMidiInput(midiSource);
 		} catch (MidiUnavailableException e) {
 			throw new IllegalStateException("Could not capture midi messages", e);
 		}
@@ -53,7 +55,7 @@ public class PlayLive implements MessageGenerator {
 
 	@Override
 	public void stop() {
-		// FIXME
+		device.close();
 	}
 
 	@Override
