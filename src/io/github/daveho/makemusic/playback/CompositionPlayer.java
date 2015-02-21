@@ -10,45 +10,52 @@ import java.util.List;
 import net.beadsproject.beads.core.AudioContext;
 
 public class CompositionPlayer {
+	private AudioContext ac;
 	private CompositionData data;
+	private List<Track> tracks;
 
 	public CompositionPlayer(CompositionData data) {
 		this.data = data;
+		this.tracks = new ArrayList<>();
 	}
 	
-	public void play(AudioContext ac) {
-		List<MessageGenerator> messageGenerators = new ArrayList<MessageGenerator>();
+	public void start(AudioContext ac) {
+//		System.out.println("Start CompositionPlayer");
+		
+		this.ac = ac;
 		
 		for (TrackData td : data.getTrackDataList()) {
+			Track t = new Track();
+
 			// Create MessageGenerator
 			MessageGenerator mg = Registry.getInstance().createMessageGenerator(td.getMessageGeneratorData());
 			mg.setData(td.getMessageGeneratorData());
+			t.setMessageGenerator(mg);
 			
 			// Create Synth
 			Synth synth = Registry.getInstance().createSynth(td.getSynthData());
 			synth.setData(td.getSynthData());
+			t.setSynth(synth);
+
+			// Create EffectsChain
 			EffectsChain effects = new EffectsChain(ac);
 			effects.setData(td.getEffectsChainData());
+			t.setEffectsChain(effects);
 			
-			// Initialize the Synth
-			synth.init(ac);
-			
-			// Feed MidiEvents from the MessageGenerator to the Synth
-			mg.setAudioContext(ac);
-			mg.setRecipient(synth.getUGen());
-			messageGenerators.add(mg);
-			
-			// Connect the Synth's output to the EffectsChain's input
-			effects.getIn().addInput(synth.getUGen());
-			
-			// Connect the EffectsChain's output to the AudioContext's output
-			ac.out.addInput(effects.getOut());
+			tracks.add(t);
 		}
 		
 		ac.start();
 		
-		for (MessageGenerator mg : messageGenerators) {
-			mg.start();
+		for (Track t : tracks) {
+			t.start(ac);
 		}
+	}
+
+	public void stop() {
+		for (Track t : tracks) {
+			t.stop();
+		}
+		ac.stop();
 	}
 }

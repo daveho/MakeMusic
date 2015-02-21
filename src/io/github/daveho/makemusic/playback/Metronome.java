@@ -27,7 +27,7 @@ public class Metronome implements MessageGenerator {
 			if (nextTimeMs < time + frameTimeMs) {
 				if (active && recipient != null) {
 					try {
-						System.out.println("Tick!");
+						//System.out.println("Tick!");
 						msg = new ShortMessage(ShortMessage.NOTE_ON + 9, data.getNote(), data.getVelocity());
 						timeStamp = nextTimeMs * 1000L;
 						recipient.message(this);

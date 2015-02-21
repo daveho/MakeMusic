@@ -9,4 +9,6 @@ public interface Synth extends MMPlayback {
 	public UGen getUGen();
 	
 	public Synth clone();
+
+	public void stop();
 }

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Receiver;
 
 /**
  * Record MidiEvents, while also delegating them to another
@@ -26,7 +25,7 @@ public class MidiMessageRecorder extends MidiMessageInterceptor {
 	
 	@Override
 	protected void onMessageReceived(MidiMessage m, long ts) {
-		
+		messages.add(new MidiMessageAndTimeStamp(m, ts));
 	}
 	
 	/**

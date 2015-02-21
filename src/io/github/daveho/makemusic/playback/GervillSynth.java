@@ -36,6 +36,11 @@ public class GervillSynth implements Synth {
 		}
 	}
 	
+	@Override
+	public void stop() {
+		// FIXME: do we need to do anything here?
+	}
+	
 	public UGen getUGen() {
 		if (ugen == null) {
 			throw new IllegalStateException("Not initialized");
