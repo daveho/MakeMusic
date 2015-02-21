@@ -14,26 +14,19 @@ import javax.sound.midi.Receiver;
  * 
  * @author David Hovemeyer
  */
-public class MidiMessageRecorder implements Receiver {
+public class MidiMessageRecorder extends MidiMessageInterceptor {
 	private final List<MidiMessageAndTimeStamp> messages;
-	private final Receiver delegate;
 	
 	/**
 	 * Constructor.
-	 * 
-	 * @param delegate another Receiver to which received
-	 *                 MidiEvents should be delegated
 	 */
-	public MidiMessageRecorder(Receiver delegate) {
+	public MidiMessageRecorder() {
 		this.messages = new ArrayList<MidiMessageAndTimeStamp>();
-		this.delegate = delegate;
 	}
-
+	
 	@Override
-	public void send(MidiMessage message, long timeStamp) {
-		MidiMessage copy = (MidiMessage) message.clone();
-		messages.add(new MidiMessageAndTimeStamp(copy, timeStamp));
-		delegate.send(message, timeStamp);
+	protected void onMessageReceived(MidiMessage m, long ts) {
+		
 	}
 	
 	/**
@@ -44,10 +37,4 @@ public class MidiMessageRecorder implements Receiver {
 	public List<MidiMessageAndTimeStamp> getMessages() {
 		return messages;
 	}
-
-	@Override
-	public void close() {
-		delegate.close();
-	}
-
 }
