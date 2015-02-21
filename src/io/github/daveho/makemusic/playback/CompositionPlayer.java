@@ -1,4 +1,8 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
+
+import io.github.daveho.makemusic.Registry;
+import io.github.daveho.makemusic.data.CompositionData;
+import io.github.daveho.makemusic.data.TrackData;
 
 import java.util.ArrayList;
 import java.util.List;

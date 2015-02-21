@@ -1,5 +1,12 @@
 package io.github.daveho.makemusic;
 
+import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.playback.GervillSynth;
+import io.github.daveho.makemusic.playback.MessageGenerator;
+import io.github.daveho.makemusic.playback.Metronome;
+import io.github.daveho.makemusic.playback.PlayLive;
+import io.github.daveho.makemusic.playback.Synth;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,8 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
 
 import io.github.daveho.gervill4beads.MidiMessageSource;
+import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.data.MetronomeData;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiMessage;

@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
 
 public class Track {
 	private MessageGenerator messageGenerator;

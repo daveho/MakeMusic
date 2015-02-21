@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.data;
 
 import java.util.HashMap;
 import java.util.Map;

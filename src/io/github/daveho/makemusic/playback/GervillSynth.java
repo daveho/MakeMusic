@@ -1,10 +1,12 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
 
 import java.util.Collections;
 
 import javax.sound.midi.MidiUnavailableException;
 
 import io.github.daveho.gervill4beads.GervillUGen;
+import io.github.daveho.makemusic.data.GervillData;
+import io.github.daveho.makemusic.data.MMData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
 

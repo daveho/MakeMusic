@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.data;
 
 public class GervillData extends AbstractMMData {
 	// Right now, we don't have anything configurable for GervillSynth

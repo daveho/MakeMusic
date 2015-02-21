@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.data;
 
 /**
  * Data object that represents some named numeric parameters.

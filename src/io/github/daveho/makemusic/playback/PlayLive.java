@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
 
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.ShortMessage;
@@ -6,6 +6,8 @@ import javax.sound.midi.ShortMessage;
 import io.github.daveho.gervill4beads.CaptureMidiMessages;
 import io.github.daveho.gervill4beads.Midi;
 import io.github.daveho.gervill4beads.ReceivedMidiMessageSource;
+import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.data.PlayLiveData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 

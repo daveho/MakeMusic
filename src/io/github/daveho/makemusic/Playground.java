@@ -1,5 +1,13 @@
 package io.github.daveho.makemusic;
 
+import io.github.daveho.makemusic.data.CompositionData;
+import io.github.daveho.makemusic.data.EffectsChainData;
+import io.github.daveho.makemusic.data.GervillData;
+import io.github.daveho.makemusic.data.MetronomeData;
+import io.github.daveho.makemusic.data.PlayLiveData;
+import io.github.daveho.makemusic.data.TrackData;
+import io.github.daveho.makemusic.playback.CompositionPlayer;
+
 import javax.sound.midi.MidiUnavailableException;
 
 import net.beadsproject.beads.core.AudioContext;

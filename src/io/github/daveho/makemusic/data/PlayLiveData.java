@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.data;
 
 public class PlayLiveData extends AbstractMMData {
 

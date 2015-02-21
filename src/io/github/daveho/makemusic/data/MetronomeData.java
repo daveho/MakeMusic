@@ -1,4 +1,4 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.data;
 
 public class MetronomeData extends AbstractMMData {
 	/**

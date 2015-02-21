@@ -1,5 +1,7 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.makemusic.data.EffectsChainData;
+import io.github.daveho.makemusic.data.MMData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
 import net.beadsproject.beads.ugens.Gain;
