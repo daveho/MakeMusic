@@ -7,7 +7,7 @@ import javax.sound.midi.ShortMessage;
 import io.github.daveho.gervill4beads.CaptureMidiMessages;
 import io.github.daveho.gervill4beads.Midi;
 import io.github.daveho.gervill4beads.ReceivedMidiMessageSource;
-import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.data.IMMData;
 import io.github.daveho.makemusic.data.PlayLiveData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
@@ -18,12 +18,12 @@ public class PlayLive implements MessageGenerator {
 	private MidiDevice device;
 
 	@Override
-	public Class<? extends MMData> getDataType() {
+	public Class<? extends IMMData> getDataType() {
 		return PlayLiveData.class;
 	}
 
 	@Override
-	public void setData(MMData data) {
+	public void setData(IMMData data) {
 		if (!(data instanceof PlayLiveData)) {
 			throw new IllegalArgumentException("Can't create PlayLiveMessageGenerator from " + data.getClass().getSimpleName());
 		}

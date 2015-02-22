@@ -4,7 +4,7 @@ package io.github.daveho.makemusic.data;
  * Data object that represents some named numeric parameters.
  * All MakeMusic data objects implement this interface.
  */
-public interface MMData extends Cloneable {
+public interface IMMData extends Cloneable {
 	/**
 	 * Get the short "code" that identifies this type of data.
 	 * @return the code
@@ -16,5 +16,5 @@ public interface MMData extends Cloneable {
 	public int getParamAsInt(String paramName);
 	public void setParam(String paramName, double value);
 	
-	public MMData clone();
+	public IMMData clone();
 }

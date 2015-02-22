@@ -1,27 +1,27 @@
 package io.github.daveho.makemusic.data;
 
 public class TrackData {
-	private MMData messageGeneratorData;
-	private MMData synthData;
+	private IMMData messageGeneratorData;
+	private IMMData synthData;
 	private EffectsChainData effectsChainData;
 	
 	public TrackData() {
 		
 	}
 	
-	public void setMessageGeneratorData(MMData messageGeneratorData) {
+	public void setMessageGeneratorData(IMMData messageGeneratorData) {
 		this.messageGeneratorData = messageGeneratorData;
 	}
 	
-	public MMData getMessageGeneratorData() {
+	public IMMData getMessageGeneratorData() {
 		return messageGeneratorData;
 	}
 	
-	public void setSynthData(MMData synthData) {
+	public void setSynthData(IMMData synthData) {
 		this.synthData = synthData;
 	}
 	
-	public MMData getSynthData() {
+	public IMMData getSynthData() {
 		return synthData;
 	}
 	

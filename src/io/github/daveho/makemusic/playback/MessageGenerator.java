@@ -1,5 +1,6 @@
 package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.makemusic.IMMPlayback;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 
@@ -7,7 +8,7 @@ import net.beadsproject.beads.core.Bead;
  * A MessageGenerator generates midi messages, when are
  * delegated to a recipient Bead.
  */
-public interface MessageGenerator extends MMPlayback {
+public interface MessageGenerator extends IMMPlayback {
 	/**
 	 * Set the AudioContext.
 	 * 

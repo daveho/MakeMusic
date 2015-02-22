@@ -6,7 +6,7 @@ import javax.sound.midi.MidiUnavailableException;
 
 import io.github.daveho.gervill4beads.GervillUGen;
 import io.github.daveho.makemusic.data.GervillData;
-import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.data.IMMData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
 
@@ -15,12 +15,12 @@ public class GervillSynth implements Synth {
 	private GervillUGen ugen;
 
 	@Override
-	public Class<? extends MMData> getDataType() {
+	public Class<? extends IMMData> getDataType() {
 		return GervillData.class;
 	}
 
 	@Override
-	public void setData(MMData data) {
+	public void setData(IMMData data) {
 		if (!(data instanceof GervillData)) {
 			throw new IllegalStateException("Can't initialize GervillSynth from " + data.getClass().getSimpleName());
 		}

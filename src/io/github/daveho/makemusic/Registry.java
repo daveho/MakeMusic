@@ -1,6 +1,6 @@
 package io.github.daveho.makemusic;
 
-import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.data.IMMData;
 import io.github.daveho.makemusic.playback.GervillSynth;
 import io.github.daveho.makemusic.playback.MessageGenerator;
 import io.github.daveho.makemusic.playback.Metronome;
@@ -31,12 +31,12 @@ public class Registry {
 	}
 	
 	/**
-	 * Create a {@link MessageGenerator} using given {@link MMData}.
+	 * Create a {@link MessageGenerator} using given {@link IMMData}.
 	 * 
-	 * @param data the {@link MMData}
+	 * @param data the {@link IMMData}
 	 * @return a {@link MessageGenerator}
 	 */
-	public MessageGenerator createMessageGenerator(MMData data) {
+	public MessageGenerator createMessageGenerator(IMMData data) {
 		for (MessageGenerator prototype : messageGenerators) {
 			if (prototype.getDataType() == data.getClass()) {
 				// Found a matching prototype - clone it
@@ -47,12 +47,12 @@ public class Registry {
 	}
 
 	/**
-	 * Create a {@link Synth} using given {@link MMData}.
+	 * Create a {@link Synth} using given {@link IMMData}.
 	 * 
-	 * @param data (the {@link MMData})
+	 * @param data (the {@link IMMData})
 	 * @return a {@link Synth}
 	 */
-	public Synth createSynth(MMData data) {
+	public Synth createSynth(IMMData data) {
 		for (Synth prototype : synths) {
 			if (prototype.getDataType() == data.getClass()) {
 				// Found a matching prototype: clone it

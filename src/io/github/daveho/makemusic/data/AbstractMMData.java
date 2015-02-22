@@ -3,7 +3,7 @@ package io.github.daveho.makemusic.data;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractMMData implements MMData {
+public abstract class AbstractMMData implements IMMData {
 	private Map<String, Double> paramMap;
 	
 	public AbstractMMData() {
@@ -35,9 +35,9 @@ public abstract class AbstractMMData implements MMData {
 		paramMap.put(paramName, value);
 	}
 	
-	public MMData clone() {
+	public IMMData clone() {
 		try {
-			return (MMData) super.clone();
+			return (IMMData) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new IllegalStateException("Should not happen", e);
 		}

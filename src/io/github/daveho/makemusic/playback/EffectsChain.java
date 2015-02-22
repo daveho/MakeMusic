@@ -1,12 +1,13 @@
 package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.makemusic.IMMPlayback;
 import io.github.daveho.makemusic.data.EffectsChainData;
-import io.github.daveho.makemusic.data.MMData;
+import io.github.daveho.makemusic.data.IMMData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
 import net.beadsproject.beads.ugens.Gain;
 
-public class EffectsChain implements MMPlayback {
+public class EffectsChain implements IMMPlayback {
 	private EffectsChainData data;
 	private UGen in;
 	private Gain out;
@@ -25,12 +26,12 @@ public class EffectsChain implements MMPlayback {
 	}
 
 	@Override
-	public Class<? extends MMData> getDataType() {
+	public Class<? extends IMMData> getDataType() {
 		return EffectsChainData.class;
 	}
 
 	@Override
-	public void setData(MMData data) {
+	public void setData(IMMData data) {
 		if (!(data instanceof EffectsChainData)) {
 			throw new IllegalArgumentException("Can't initialize EffectsChain with " + data.getClass().getSimpleName());
 		}
