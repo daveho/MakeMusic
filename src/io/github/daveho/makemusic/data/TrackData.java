@@ -1,5 +1,7 @@
 package io.github.daveho.makemusic.data;
 
+import io.github.daveho.makemusic.IMMData;
+
 // FIXME: mark with @MMData annotation?
 public class TrackData {
 	private IMMData messageGeneratorData;

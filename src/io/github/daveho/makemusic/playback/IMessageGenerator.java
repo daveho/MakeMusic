@@ -5,10 +5,10 @@ import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 
 /**
- * A MessageGenerator generates midi messages, when are
+ * An {@link IMessageGenerator} generates midi messages, which are
  * delegated to a recipient Bead.
  */
-public interface MessageGenerator extends IMMPlayback {
+public interface IMessageGenerator extends IMMPlayback {
 	/**
 	 * Set the AudioContext.
 	 * 
@@ -32,6 +32,4 @@ public interface MessageGenerator extends IMMPlayback {
 	 * Stop generating midi messages.
 	 */
 	public void stop();
-	
-	public MessageGenerator clone();
 }

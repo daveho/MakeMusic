@@ -1,8 +1,8 @@
 package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.makemusic.IMMData;
 import io.github.daveho.makemusic.IMMPlayback;
 import io.github.daveho.makemusic.data.EffectsChainData;
-import io.github.daveho.makemusic.data.IMMData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
 import net.beadsproject.beads.ugens.Gain;
@@ -36,14 +36,5 @@ public class EffectsChain implements IMMPlayback {
 			throw new IllegalArgumentException("Can't initialize EffectsChain with " + data.getClass().getSimpleName());
 		}
 		this.data = (EffectsChainData) data;
-	}
-
-	@Override
-	public EffectsChain clone() {
-		try {
-			return (EffectsChain) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new IllegalStateException("Should not happen", e);
-		}
 	}
 }

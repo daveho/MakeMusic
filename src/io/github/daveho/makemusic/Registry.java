@@ -1,14 +1,13 @@
 package io.github.daveho.makemusic;
 
-import io.github.daveho.makemusic.data.IMMData;
-import io.github.daveho.makemusic.playback.GervillSynth;
-import io.github.daveho.makemusic.playback.MessageGenerator;
-import io.github.daveho.makemusic.playback.Metronome;
-import io.github.daveho.makemusic.playback.PlayLive;
-import io.github.daveho.makemusic.playback.Synth;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.reflections.Reflections;
+
+import io.github.daveho.makemusic.playback.IMessageGenerator;
+import io.github.daveho.makemusic.playback.ISynth;
 
 public class Registry {
 	private static final Registry instance = new Registry();
@@ -17,48 +16,69 @@ public class Registry {
 		return instance;
 	}
 	
-	public List<MessageGenerator> messageGenerators;
-	public List<Synth> synths;
+	private Map<Class<? extends IMMData>, Class<? extends IMessageGenerator>> msgGenMap;
+	private Map<Class<? extends IMMData>, Class<? extends ISynth>> synthMap;
 	
 	private Registry() {
-		messageGenerators = new ArrayList<MessageGenerator>();
-		synths = new ArrayList<Synth>();
-		
-		// TODO: use reflection/annotations to find these automatically
-		messageGenerators.add(new Metronome());
-		messageGenerators.add(new PlayLive());
-		synths.add(new GervillSynth());
+		msgGenMap = new HashMap<>();
+		synthMap = new HashMap<>();
+		findPlaybackClasses("io.github.daveho.makemusic.playback", IMessageGenerator.class, msgGenMap);
+		findPlaybackClasses("io.github.daveho.makemusic.playback", ISynth.class, synthMap);
 	}
 	
-	/**
-	 * Create a {@link MessageGenerator} using given {@link IMMData}.
-	 * 
-	 * @param data the {@link IMMData}
-	 * @return a {@link MessageGenerator}
-	 */
-	public MessageGenerator createMessageGenerator(IMMData data) {
-		for (MessageGenerator prototype : messageGenerators) {
-			if (prototype.getDataType() == data.getClass()) {
-				// Found a matching prototype - clone it
-				return prototype.clone();
+	private<E> void findPlaybackClasses(
+			String pkgName,
+			Class<E> playbackCls,
+			Map<Class<? extends IMMData>, Class<? extends E>> map) {
+		System.out.println("Adding " + playbackCls.getSimpleName() + " classes to registry");
+		Reflections reflections = new Reflections(pkgName);
+		Set<Class<? extends E>> playbackClasses = reflections.getSubTypesOf(playbackCls);
+		if (playbackClasses.isEmpty()) {
+			throw new RuntimeException("No " + playbackCls.getSimpleName() + " classes found");
+		}
+		for (Class<? extends E> cls : playbackClasses) {
+			MMPlayback annotation = cls.getAnnotation(MMPlayback.class);
+			if (annotation != null) {
+				System.out.println("Registry: " + annotation.dataClass().getSimpleName() + " => " + cls.getSimpleName());
+				map.put(annotation.dataClass(), cls);
 			}
 		}
-		throw new IllegalArgumentException("No MessageGenerator found for " + data.getClass().getSimpleName());
 	}
 
 	/**
-	 * Create a {@link Synth} using given {@link IMMData}.
+	 * Create a {@link IMessageGenerator} using given {@link IMMData}.
+	 * 
+	 * @param data the {@link IMMData}
+	 * @return a {@link IMessageGenerator}
+	 */
+	public IMessageGenerator createMessageGenerator(IMMData data) {
+		return createPlaybackObject(data, IMessageGenerator.class, msgGenMap);
+	}
+
+	/**
+	 * Create a {@link ISynth} using given {@link IMMData}.
 	 * 
 	 * @param data (the {@link IMMData})
-	 * @return a {@link Synth}
+	 * @return a {@link ISynth}
 	 */
-	public Synth createSynth(IMMData data) {
-		for (Synth prototype : synths) {
-			if (prototype.getDataType() == data.getClass()) {
-				// Found a matching prototype: clone it
-				return prototype.clone();
-			}
+	public ISynth createSynth(IMMData data) {
+		return createPlaybackObject(data, ISynth.class, synthMap);
+	}
+
+	private<E extends IMMPlayback> E createPlaybackObject(IMMData data, Class<E> playbackCls,
+			Map<Class<? extends IMMData>, Class<? extends E>> map) {
+		System.out.println("Looking for key " + data.getClass().getSimpleName());
+		for (Class<?> key : map.keySet()) {
+			System.out.println("Map has key " + key.getSimpleName());
 		}
-		throw new IllegalArgumentException("No Synth found for " + data.getClass().getSimpleName());
+		Class<? extends E> cls = map.get(data.getClass());
+		if (cls == null) {
+			throw new RuntimeException("No " + playbackCls.getSimpleName() + " found for " + data.getClass().getSimpleName());
+		}
+		try {
+			return cls.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new RuntimeException("Could not create " + playbackCls.getSimpleName() + " for " + data.getClass().getSimpleName());
+		}
 	}
 }

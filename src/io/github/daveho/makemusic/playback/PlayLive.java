@@ -1,18 +1,21 @@
 package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.gervill4beads.CaptureMidiMessages;
+import io.github.daveho.gervill4beads.Midi;
+import io.github.daveho.gervill4beads.ReceivedMidiMessageSource;
+import io.github.daveho.makemusic.IMMData;
+import io.github.daveho.makemusic.MMPlayback;
+import io.github.daveho.makemusic.data.PlayLiveData;
+
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.ShortMessage;
 
-import io.github.daveho.gervill4beads.CaptureMidiMessages;
-import io.github.daveho.gervill4beads.Midi;
-import io.github.daveho.gervill4beads.ReceivedMidiMessageSource;
-import io.github.daveho.makemusic.data.IMMData;
-import io.github.daveho.makemusic.data.PlayLiveData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 
-public class PlayLive implements MessageGenerator {
+@MMPlayback(dataClass=PlayLiveData.class)
+public class PlayLive implements IMessageGenerator {
 	private PlayLiveData data;
 	private ReceivedMidiMessageSource midiSource;
 	private MidiDevice device;
@@ -57,14 +60,4 @@ public class PlayLive implements MessageGenerator {
 	public void stop() {
 		device.close();
 	}
-
-	@Override
-	public PlayLive clone() {
-		try {
-			return (PlayLive) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new IllegalStateException("Should not happen", e);
-		}
-	}
-
 }

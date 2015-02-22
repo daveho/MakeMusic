@@ -1,7 +1,8 @@
 package io.github.daveho.makemusic.playback;
 
 import io.github.daveho.gervill4beads.MidiMessageSource;
-import io.github.daveho.makemusic.data.IMMData;
+import io.github.daveho.makemusic.IMMData;
+import io.github.daveho.makemusic.MMPlayback;
 import io.github.daveho.makemusic.data.MetronomeData;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -11,7 +12,8 @@ import javax.sound.midi.ShortMessage;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 
-public class Metronome implements MessageGenerator {
+@MMPlayback(dataClass=MetronomeData.class)
+public class Metronome implements IMessageGenerator {
 	private class MetronomeBead extends Bead implements MidiMessageSource {
 		private int count;
 		private MidiMessage msg;
@@ -73,15 +75,6 @@ public class Metronome implements MessageGenerator {
 			throw new IllegalStateException("Can't initialize Metronome with " + data.getClass().getSimpleName());
 		}
 		this.data = (MetronomeData) data;
-	}
-	
-	@Override
-	public Metronome clone() {
-		try {
-			return (Metronome) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new IllegalStateException("Should not happen", e);
-		}
 	}
 
 	@Override

@@ -1,16 +1,19 @@
 package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.gervill4beads.GervillUGen;
+import io.github.daveho.makemusic.IMMData;
+import io.github.daveho.makemusic.MMPlayback;
+import io.github.daveho.makemusic.data.GervillData;
+
 import java.util.Collections;
 
 import javax.sound.midi.MidiUnavailableException;
 
-import io.github.daveho.gervill4beads.GervillUGen;
-import io.github.daveho.makemusic.data.GervillData;
-import io.github.daveho.makemusic.data.IMMData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.UGen;
 
-public class GervillSynth implements Synth {
+@MMPlayback(dataClass=GervillData.class)
+public class GervillSynth implements ISynth {
 	private GervillData data;
 	private GervillUGen ugen;
 
@@ -47,14 +50,4 @@ public class GervillSynth implements Synth {
 		}
 		return ugen;
 	}
-
-	@Override
-	public GervillSynth clone() {
-		try {
-			return (GervillSynth) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new IllegalStateException("Should not happen", e);
-		}
-	}
-
 }

@@ -28,12 +28,12 @@ public class CompositionPlayer {
 			Track t = new Track();
 
 			// Create MessageGenerator
-			MessageGenerator mg = Registry.getInstance().createMessageGenerator(td.getMessageGeneratorData());
+			IMessageGenerator mg = Registry.getInstance().createMessageGenerator(td.getMessageGeneratorData());
 			mg.setData(td.getMessageGeneratorData());
 			t.setMessageGenerator(mg);
 			
 			// Create Synth
-			Synth synth = Registry.getInstance().createSynth(td.getSynthData());
+			ISynth synth = Registry.getInstance().createSynth(td.getSynthData());
 			synth.setData(td.getSynthData());
 			t.setSynth(synth);
 

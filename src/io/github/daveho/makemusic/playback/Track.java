@@ -3,19 +3,19 @@ package io.github.daveho.makemusic.playback;
 import net.beadsproject.beads.core.AudioContext;
 
 public class Track {
-	private MessageGenerator messageGenerator;
-	private Synth synth;
+	private IMessageGenerator messageGenerator;
+	private ISynth synth;
 	private EffectsChain effectsChain;
 	
 	public Track() {
 		
 	}
 	
-	public void setMessageGenerator(MessageGenerator messageGenerator) {
+	public void setMessageGenerator(IMessageGenerator messageGenerator) {
 		this.messageGenerator = messageGenerator;
 	}
 	
-	public void setSynth(Synth synth) {
+	public void setSynth(ISynth synth) {
 		this.synth = synth;
 	}
 	
