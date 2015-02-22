@@ -1,14 +1,7 @@
 package io.github.daveho.makemusic.data;
 
+import io.github.daveho.makemusic.MMData;
+
+@MMData(code="gd")
 public class GervillData extends AbstractMMData {
-	// Right now, we don't have anything configurable for GervillSynth
-	@Override
-	public String getCode() {
-		return "gervill";
-	}
-	
-	@Override
-	public GervillData clone() {
-		return (GervillData) super.clone();
-	}
 }

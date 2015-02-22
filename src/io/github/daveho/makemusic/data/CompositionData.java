@@ -1,8 +1,11 @@
 package io.github.daveho.makemusic.data;
 
+import io.github.daveho.makemusic.MMData;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@MMData(code="cd")
 public class CompositionData {
 	private List<TrackData> trackDataList;
 	

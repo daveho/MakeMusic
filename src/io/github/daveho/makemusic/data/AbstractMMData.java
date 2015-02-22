@@ -34,12 +34,4 @@ public abstract class AbstractMMData implements IMMData {
 	public void setParam(String paramName, double value) {
 		paramMap.put(paramName, value);
 	}
-	
-	public IMMData clone() {
-		try {
-			return (IMMData) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new IllegalStateException("Should not happen", e);
-		}
-	}
 }

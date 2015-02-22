@@ -1,5 +1,8 @@
 package io.github.daveho.makemusic.data;
 
+import io.github.daveho.makemusic.MMData;
+
+@MMData(code="md")
 public class MetronomeData extends AbstractMMData {
 	/**
 	 * Default interval is 120 beats per minute.
@@ -24,11 +27,6 @@ public class MetronomeData extends AbstractMMData {
 		setParam("velocity", DEFAULT_VELOCITY);
 	}
 	
-	@Override
-	public String getCode() {
-		return "metronome";
-	}
-	
 	public long getIntervalMs() {
 		return getParamAsLong("intervalMs");
 	}
@@ -39,10 +37,5 @@ public class MetronomeData extends AbstractMMData {
 
 	public int getVelocity() {
 		return getParamAsInt("velocity");
-	}
-	
-	@Override
-	public MetronomeData clone() {
-		return (MetronomeData) super.clone();
 	}
 }
