@@ -47,8 +47,8 @@ public class PlayLive implements MessageGenerator {
 
 	@Override
 	public void start() {
-		if (data.hasProperty("patch")) {
-			int patch = data.getPropertyAsInt("patch");
+		if (data.hasParam("patch")) {
+			int patch = data.getParamAsInt("patch");
 			midiSource.send(Midi.createShortMessage(ShortMessage.PROGRAM_CHANGE, patch), 0L);
 		}
 	}

@@ -10,11 +10,11 @@ public interface MMData extends Cloneable {
 	 * @return the code
 	 */
 	public String getCode();
-	public boolean hasProperty(String propertyName);
-	public double getProperty(String propertyName);
-	public long getPropertyAsLong(String propertyName);
-	public int getPropertyAsInt(String propertyName);
-	public void setProperty(String propertyName, double value);
+	public boolean hasParam(String paramName);
+	public double getParam(String paramName);
+	public long getParamAsLong(String paramName);
+	public int getParamAsInt(String paramName);
+	public void setParam(String paramName, double value);
 	
 	public MMData clone();
 }

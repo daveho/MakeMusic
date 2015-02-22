@@ -4,35 +4,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractMMData implements MMData {
-	private Map<String, Double> propertyMap;
+	private Map<String, Double> paramMap;
 	
 	public AbstractMMData() {
-		propertyMap = new HashMap<String, Double>();
+		paramMap = new HashMap<String, Double>();
 	}
 	
 	@Override
-	public boolean hasProperty(String propertyName) {
-		return propertyMap.containsKey(propertyName);
+	public boolean hasParam(String paramName) {
+		return paramMap.containsKey(paramName);
 	}
 	
 	@Override
-	public double getProperty(String propertyName) {
-		return propertyMap.get(propertyName);
+	public double getParam(String paramName) {
+		return paramMap.get(paramName);
 	}
 	
 	@Override
-	public long getPropertyAsLong(String propertyName) {
-		return (long) propertyMap.get(propertyName).doubleValue();
+	public long getParamAsLong(String paramName) {
+		return (long) paramMap.get(paramName).doubleValue();
 	}
 	
 	@Override
-	public int getPropertyAsInt(String propertyName) {
-		return (int) propertyMap.get(propertyName).doubleValue();
+	public int getParamAsInt(String paramName) {
+		return (int) paramMap.get(paramName).doubleValue();
 	}
 
 	@Override
-	public void setProperty(String propertyName, double value) {
-		propertyMap.put(propertyName, value);
+	public void setParam(String paramName, double value) {
+		paramMap.put(paramName, value);
 	}
 	
 	public MMData clone() {

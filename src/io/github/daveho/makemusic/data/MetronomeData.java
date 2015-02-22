@@ -19,9 +19,9 @@ public class MetronomeData extends AbstractMMData {
 	public static int DEFAULT_VELOCITY = 96;
 
 	public MetronomeData() {
-		setProperty("intervalMs", DEFAULT_INTERVAL_MS);
-		setProperty("note", DEFAULT_NOTE);
-		setProperty("velocity", DEFAULT_VELOCITY);
+		setParam("intervalMs", DEFAULT_INTERVAL_MS);
+		setParam("note", DEFAULT_NOTE);
+		setParam("velocity", DEFAULT_VELOCITY);
 	}
 	
 	@Override
@@ -30,15 +30,15 @@ public class MetronomeData extends AbstractMMData {
 	}
 	
 	public long getIntervalMs() {
-		return getPropertyAsLong("intervalMs");
+		return getParamAsLong("intervalMs");
 	}
 
 	public int getNote() {
-		return getPropertyAsInt("note");
+		return getParamAsInt("note");
 	}
 
 	public int getVelocity() {
-		return getPropertyAsInt("velocity");
+		return getParamAsInt("velocity");
 	}
 	
 	@Override

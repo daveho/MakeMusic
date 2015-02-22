@@ -65,7 +65,7 @@ public class Playground {
 		
 		MetronomeData md = new MetronomeData();
 		
-		md.setProperty("intervalMs", (double)(60*1000)/BPM);
+		md.setParam("intervalMs", (double)(60*1000)/BPM);
 		
 		td.setMessageGeneratorData(md);
 		
@@ -82,7 +82,7 @@ public class Playground {
 		TrackData td = new TrackData();
 		
 		PlayLiveData plmgd = new PlayLiveData();
-		plmgd.setProperty("patch", 54);
+		plmgd.setParam("patch", 54);
 		td.setMessageGeneratorData(plmgd);
 		
 		GervillData gd = new GervillData();
