@@ -84,7 +84,7 @@ public class Registry {
 		try {
 			return cls.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
-			throw new RuntimeException("Could not create " + playbackCls.getSimpleName() + " for " + data.getClass().getSimpleName());
+			throw new RuntimeException("Could not create " + playbackCls.getSimpleName() + " for " + data.getClass().getSimpleName(), e);
 		}
 	}
 }
