@@ -1,15 +1,19 @@
 package io.github.daveho.makemusic.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.daveho.makemusic.IMMData;
 
 // FIXME: mark with @MMData annotation?
 public class TrackData {
 	private IMMData messageGeneratorData;
+	private List<IMMData> midiMessageInterceptorDataList;
 	private IMMData synthData;
 	private EffectsChainData effectsChainData;
 	
 	public TrackData() {
-		
+		this.midiMessageInterceptorDataList = new ArrayList<>();
 	}
 	
 	public void setMessageGeneratorData(IMMData messageGeneratorData) {
@@ -18,6 +22,10 @@ public class TrackData {
 	
 	public IMMData getMessageGeneratorData() {
 		return messageGeneratorData;
+	}
+	
+	public void addMessageInterceptorData(IMMData data) {
+		midiMessageInterceptorDataList.add(data);
 	}
 	
 	public void setSynthData(IMMData synthData) {

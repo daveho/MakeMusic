@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.sound.midi.MidiMessage;
 
+import net.beadsproject.beads.core.Bead;
+
 /**
  * Record MidiEvents, while also delegating them to another
  * Receiver.
