@@ -9,9 +9,22 @@ import org.reflections.Reflections;
 import io.github.daveho.makemusic.playback.IMessageGenerator;
 import io.github.daveho.makemusic.playback.ISynth;
 
+/**
+ * Registry for finding {@link IMMPlayback} objects ({@link IMessageGenerator}s
+ * and {@link ISynth}s) corresponding to a particular {@link IMMData} object.
+ * All playback objects are found automatically because they are annotated
+ * with the {@link MMPlayback} annotation.
+ * 
+ * @author David Hovemeyer
+ */
 public class Registry {
 	private static final Registry instance = new Registry();
 	
+	/**
+	 * Get the singleton instance of {@link Registry}.
+	 * 
+	 * @return the singleton instance
+	 */
 	public static Registry getInstance() {
 		return instance;
 	}
@@ -30,7 +43,7 @@ public class Registry {
 			String pkgName,
 			Class<E> playbackCls,
 			Map<Class<? extends IMMData>, Class<? extends E>> map) {
-		System.out.println("Adding " + playbackCls.getSimpleName() + " classes to registry");
+//		System.out.println("Adding " + playbackCls.getSimpleName() + " classes to registry");
 		Reflections reflections = new Reflections(pkgName);
 		Set<Class<? extends E>> playbackClasses = reflections.getSubTypesOf(playbackCls);
 		if (playbackClasses.isEmpty()) {
@@ -39,7 +52,7 @@ public class Registry {
 		for (Class<? extends E> cls : playbackClasses) {
 			MMPlayback annotation = cls.getAnnotation(MMPlayback.class);
 			if (annotation != null) {
-				System.out.println("Registry: " + annotation.dataClass().getSimpleName() + " => " + cls.getSimpleName());
+//				System.out.println("Registry: " + annotation.dataClass().getSimpleName() + " => " + cls.getSimpleName());
 				map.put(annotation.dataClass(), cls);
 			}
 		}
@@ -67,10 +80,6 @@ public class Registry {
 
 	private<E extends IMMPlayback> E createPlaybackObject(IMMData data, Class<E> playbackCls,
 			Map<Class<? extends IMMData>, Class<? extends E>> map) {
-		System.out.println("Looking for key " + data.getClass().getSimpleName());
-		for (Class<?> key : map.keySet()) {
-			System.out.println("Map has key " + key.getSimpleName());
-		}
 		Class<? extends E> cls = map.get(data.getClass());
 		if (cls == null) {
 			throw new RuntimeException("No " + playbackCls.getSimpleName() + " found for " + data.getClass().getSimpleName());
