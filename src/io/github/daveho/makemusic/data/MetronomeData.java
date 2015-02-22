@@ -1,9 +1,10 @@
 package io.github.daveho.makemusic.data;
 
+import io.github.daveho.makemusic.IMessageGeneratorData;
 import io.github.daveho.makemusic.MMData;
 
 @MMData(code="md")
-public class MetronomeData extends AbstractMMData {
+public class MetronomeData extends AbstractMMData implements IMessageGeneratorData {
 	/**
 	 * Default interval is 120 beats per minute.
 	 */

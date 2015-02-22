@@ -56,22 +56,22 @@ public class Registry {
 	}
 
 	/**
-	 * Create a {@link IMessageGenerator} using given {@link IMMData}.
+	 * Create a {@link IMessageGenerator} using given {@link IMesssageGeneratorData}.
 	 * 
-	 * @param data the {@link IMMData}
+	 * @param data the {@link IMessageGeneratorData}
 	 * @return a {@link IMessageGenerator}
 	 */
-	public IMessageGenerator createMessageGenerator(IMMData data) {
+	public IMessageGenerator createMessageGenerator(IMessageGeneratorData data) {
 		return createPlaybackObject(data, IMessageGenerator.class, msgGenMap);
 	}
 
 	/**
-	 * Create a {@link ISynth} using given {@link IMMData}.
+	 * Create a {@link ISynth} using given {@link ISynthData}.
 	 * 
-	 * @param data (the {@link IMMData})
+	 * @param data (the {@link ISynthData})
 	 * @return a {@link ISynth}
 	 */
-	public ISynth createSynth(IMMData data) {
+	public ISynth createSynth(ISynthData data) {
 		return createPlaybackObject(data, ISynth.class, synthMap);
 	}
 
