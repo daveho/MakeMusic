@@ -1,5 +1,7 @@
 package io.github.daveho.makemusic.playback;
 
+import io.github.daveho.makemusic.IMessageGenerator;
+import io.github.daveho.makemusic.ISynth;
 import net.beadsproject.beads.core.AudioContext;
 
 public class Track {

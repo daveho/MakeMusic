@@ -2,6 +2,7 @@ package io.github.daveho.makemusic.playback;
 
 import io.github.daveho.gervill4beads.MidiMessageSource;
 import io.github.daveho.makemusic.IMMData;
+import io.github.daveho.makemusic.IMessageGenerator;
 import io.github.daveho.makemusic.MMPlayback;
 import io.github.daveho.makemusic.data.MetronomeData;
 

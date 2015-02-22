@@ -1,6 +1,5 @@
-package io.github.daveho.makemusic.playback;
+package io.github.daveho.makemusic;
 
-import io.github.daveho.makemusic.IMMPlayback;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 

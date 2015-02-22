@@ -2,6 +2,7 @@ package io.github.daveho.makemusic.playback;
 
 import io.github.daveho.gervill4beads.GervillUGen;
 import io.github.daveho.makemusic.IMMData;
+import io.github.daveho.makemusic.ISynth;
 import io.github.daveho.makemusic.MMPlayback;
 import io.github.daveho.makemusic.data.GervillData;
 

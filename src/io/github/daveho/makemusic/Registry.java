@@ -6,9 +6,6 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import io.github.daveho.makemusic.playback.IMessageGenerator;
-import io.github.daveho.makemusic.playback.ISynth;
-
 /**
  * Registry for finding {@link IMMPlayback} objects ({@link IMessageGenerator}s
  * and {@link ISynth}s) corresponding to a particular {@link IMMData} object.
