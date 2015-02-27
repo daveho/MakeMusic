@@ -28,18 +28,23 @@ public class Registry {
 	
 	private Map<Class<? extends IMMData>, Class<? extends IMessageGenerator>> msgGenMap;
 	private Map<Class<? extends IMMData>, Class<? extends ISynth>> synthMap;
+	private Map<String, Class<? extends IMMData>> msgGenDataMap;
+	private Map<String, Class<? extends IMMData>> synthDataMap;
 	
 	private Registry() {
 		msgGenMap = new HashMap<>();
 		synthMap = new HashMap<>();
-		findPlaybackClasses("io.github.daveho.makemusic.playback", IMessageGenerator.class, msgGenMap);
-		findPlaybackClasses("io.github.daveho.makemusic.playback", ISynth.class, synthMap);
+		msgGenDataMap = new HashMap<>();
+		synthDataMap = new HashMap<>();
+		findPlaybackClasses("io.github.daveho.makemusic.playback", IMessageGenerator.class, msgGenMap, msgGenDataMap);
+		findPlaybackClasses("io.github.daveho.makemusic.playback", ISynth.class, synthMap, synthDataMap);
 	}
 	
 	private<E> void findPlaybackClasses(
 			String pkgName,
 			Class<E> playbackCls,
-			Map<Class<? extends IMMData>, Class<? extends E>> map) {
+			Map<Class<? extends IMMData>, Class<? extends E>> map,
+			Map<String, Class<? extends IMMData>> dataMap) {
 //		System.out.println("Adding " + playbackCls.getSimpleName() + " classes to registry");
 		Reflections reflections = new Reflections(pkgName);
 		Set<Class<? extends E>> playbackClasses = reflections.getSubTypesOf(playbackCls);
@@ -50,7 +55,15 @@ public class Registry {
 			MMPlayback annotation = cls.getAnnotation(MMPlayback.class);
 			if (annotation != null) {
 //				System.out.println("Registry: " + annotation.dataClass().getSimpleName() + " => " + cls.getSimpleName());
-				map.put(annotation.dataClass(), cls);
+				Class<? extends IMMData> dataClass = annotation.dataClass();
+
+				MMData dataAnnotation = dataClass.getAnnotation(MMData.class);
+				if (dataAnnotation == null) {
+					throw new RuntimeException("Data class " + dataClass.getSimpleName() + " not annotated with " + MMData.class.getSimpleName());
+				}
+				
+				map.put(dataClass, cls);
+				dataMap.put(dataAnnotation.code(), dataClass);
 			}
 		}
 	}
@@ -85,6 +98,26 @@ public class Registry {
 			return cls.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException("Could not create " + playbackCls.getSimpleName() + " for " + data.getClass().getSimpleName(), e);
+		}
+	}
+
+	public IMessageGeneratorData createMessageGeneratorData(String code) {
+		return createDataObject(code, IMessageGeneratorData.class, msgGenDataMap);
+	}
+
+	public ISynthData createSynthData(String code) {
+		return createDataObject(code, ISynthData.class, synthDataMap);
+	}
+	
+	public<E extends IMMData> E createDataObject(String code, Class<E> cls, Map<String, Class<? extends IMMData>> dataMap) {
+		Class<? extends IMMData> dataClass = dataMap.get(code);
+		if (dataClass == null) {
+			throw new RuntimeException("Unknown " + cls.getSimpleName() + " class for code " + code);
+		}
+		try {
+			return cls.cast(dataClass.newInstance());
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new RuntimeException("Could not create " + dataClass.getSimpleName(), e);
 		}
 	}
 }
