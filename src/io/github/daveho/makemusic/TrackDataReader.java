@@ -40,13 +40,17 @@ public class TrackDataReader {
 					// Remaining tokens are parameter name/value pairs
 					tokens = tokens.subList(2, tokens.size());
 					if (cmd.equals("msggen")) {
+						// Message generator data
 						IMessageGeneratorData data = Registry.getInstance().createMessageGeneratorData(code);
 						setParams(data, tokens);
 						trackData.setMessageGeneratorData(data);
 					} else if (cmd.equals("synth")) {
+						// Synth data
 						ISynthData data = Registry.getInstance().createSynthData(code);
+						setParams(data, tokens);
+						trackData.setSynthData(data);
 					} else {
-						throw new IOException("Unknown command at line " + lineNum +": " + cmd);
+						throw new IOException("Unknown command \"" + cmd + "\"");
 					}
 				}
 			}
@@ -57,7 +61,7 @@ public class TrackDataReader {
 		}
 	}
 
-	private void setParams(IMessageGeneratorData data, List<String> tokens) {
+	private void setParams(IMMData data, List<String> tokens) {
 		for (String pair : tokens) {
 			int eq = pair.indexOf('=');
 			if (eq < 0) {

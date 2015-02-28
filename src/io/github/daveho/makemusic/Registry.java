@@ -101,10 +101,22 @@ public class Registry {
 		}
 	}
 
+	/**
+	 * Create an {@link IMessageGeneratorData} object with the given code.
+	 * 
+	 * @param code the code (indicating the type of object to create)
+	 * @return the {@link IMessageGeneratorData} object
+	 */
 	public IMessageGeneratorData createMessageGeneratorData(String code) {
 		return createDataObject(code, IMessageGeneratorData.class, msgGenDataMap);
 	}
 
+	/**
+	 * Create an {@link ISynthData} object with the given code.
+	 * 
+	 * @param code the code (indicating the type of object to create)
+	 * @return the {@link ISynthData} object
+	 */
 	public ISynthData createSynthData(String code) {
 		return createDataObject(code, ISynthData.class, synthDataMap);
 	}
