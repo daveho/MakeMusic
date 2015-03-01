@@ -15,6 +15,7 @@ import net.beadsproject.beads.core.UGen;
 
 @MMPlayback(dataClass=GervillData.class)
 public class GervillSynth implements ISynth {
+	@SuppressWarnings("unused")
 	private GervillData data;
 	private GervillUGen ugen;
 

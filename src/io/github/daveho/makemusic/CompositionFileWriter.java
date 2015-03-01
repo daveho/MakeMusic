@@ -1,11 +1,10 @@
 package io.github.daveho.makemusic;
 
+import io.github.daveho.makemusic.data.CompositionData;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
-
-import io.github.daveho.makemusic.data.CompositionData;
-import io.github.daveho.makemusic.data.TrackData;
 
 public class CompositionFileWriter {
 	public void write(CompositionData compositionData, Writer w) throws IOException {

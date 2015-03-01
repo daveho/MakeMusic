@@ -1,8 +1,5 @@
 package io.github.daveho.makemusic;
 
-import java.io.IOException;
-import java.util.Scanner;
-
 import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.EffectsChainData;
 import io.github.daveho.makemusic.data.GervillData;
@@ -11,7 +8,8 @@ import io.github.daveho.makemusic.data.PlayLiveData;
 import io.github.daveho.makemusic.data.TrackData;
 import io.github.daveho.makemusic.playback.CompositionPlayer;
 
-import javax.sound.midi.MidiUnavailableException;
+import java.io.IOException;
+import java.util.Scanner;
 
 import net.beadsproject.beads.core.AudioContext;
 
@@ -102,6 +100,7 @@ public class Playground {
 	}
 
 	public void commandLoop() throws IOException {
+		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		boolean done = false;
 		while (!done) {

@@ -8,6 +8,7 @@ import net.beadsproject.beads.core.UGen;
 import net.beadsproject.beads.ugens.Gain;
 
 public class EffectsChain implements IMMPlayback {
+	@SuppressWarnings("unused")
 	private EffectsChainData data;
 	private UGen in;
 	private Gain out;
