@@ -2,6 +2,8 @@ package io.github.daveho.makemusic.data;
 
 import io.github.daveho.makemusic.IMMData;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,5 +37,10 @@ public abstract class AbstractMMData implements IMMData {
 	@Override
 	public void setParam(String paramName, double value) {
 		paramMap.put(paramName, value);
+	}
+	
+	@Override
+	public Collection<String> getParamNames() {
+		return Collections.unmodifiableSet(paramMap.keySet());
 	}
 }

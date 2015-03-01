@@ -45,29 +45,17 @@ public class TrackFileReader {
 				if (cmd.equals("msggen")) {
 					// Message generator data
 					IMessageGeneratorData data = Registry.getInstance().createMessageGeneratorData(code);
-					setParams(data, tokens);
+					ParamUtils.fromTokens(data, tokens);
 					callback.onMessageGeneratorData(data);
 				} else if (cmd.equals("synth")) {
 					// Synth data
 					ISynthData data = Registry.getInstance().createSynthData(code);
-					setParams(data, tokens);
+					ParamUtils.fromTokens(data, tokens);
 					callback.onSynthData(data);
 				} else {
 					throw new IOException("Unknown command \"" + cmd + "\"");
 				}
 			}
 		});
-	}
-
-	private void setParams(IMMData data, List<String> tokens) {
-		for (String pair : tokens) {
-			int eq = pair.indexOf('=');
-			if (eq < 0) {
-				throw new RuntimeException("Invalid param/value pair: " + pair);
-			}
-			String paramName = pair.substring(0, eq);
-			Double value = Double.valueOf(pair.substring(eq+1));
-			data.setParam(paramName, value);
-		}
 	}
 }

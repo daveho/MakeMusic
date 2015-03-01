@@ -1,5 +1,6 @@
 package io.github.daveho.makemusic;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import io.github.daveho.makemusic.data.CompositionData;
@@ -51,13 +52,18 @@ public class Playground {
 	
 	public CompositionPlayer createPlayer() {
 		// FIXME: hard-coded stuff
+		CompositionData compositionData = createCompositionData();
+		
+		CompositionPlayer player = new CompositionPlayer(compositionData);
+		return player;
+	}
+
+	private CompositionData createCompositionData() {
 		CompositionData compositionData = new CompositionData();
 		
 		addMetronomeTrack(compositionData);
 		addPlayLiveTrack(compositionData);
-		
-		CompositionPlayer player = new CompositionPlayer(compositionData);
-		return player;
+		return compositionData;
 	}
 
 	private void addMetronomeTrack(CompositionData compositionData) {
@@ -94,7 +100,7 @@ public class Playground {
 		compositionData.addTrackData(td);
 	}
 
-	public void commandLoop() {
+	public void commandLoop() throws IOException {
 		Scanner in = new Scanner(System.in);
 		boolean done = false;
 		while (!done) {
@@ -131,6 +137,12 @@ public class Playground {
 					thread = null;
 					task = null;
 				}
+			} else if (cmd.startsWith("write ")) {
+				String dirName = cmd.substring("write ".length()).trim();
+				DirectoryCompositionDataSink sink = new DirectoryCompositionDataSink(dirName);
+				CompositionDataWriter cdw = new CompositionDataWriter();
+				cdw.write(createCompositionData(), sink);
+				System.out.println("Wrote composition data to " + dirName);
 			} else if (cmd.equals("quit")) {
 				if (thread != null) {
 					System.out.println("Player thread is running");
@@ -142,7 +154,7 @@ public class Playground {
 		System.out.println("cya");
 	}
 	
-	public static void main(String[] args) throws MidiUnavailableException {
+	public static void main(String[] args) throws IOException {
 		Playground playground = new Playground();
 		playground.commandLoop();
 	}

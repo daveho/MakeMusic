@@ -20,4 +20,8 @@ public class CompositionData {
 	public List<TrackData> getTrackDataList() {
 		return trackDataList;
 	}
+
+	public int getNumTracks() {
+		return trackDataList.size();
+	}
 }

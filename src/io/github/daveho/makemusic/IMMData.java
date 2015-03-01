@@ -1,5 +1,7 @@
 package io.github.daveho.makemusic;
 
+import java.util.Collection;
+
 /**
  * Data object that represents some named numeric parameters.
  * All MakeMusic data objects implement this interface.
@@ -46,4 +48,25 @@ public interface IMMData {
 	 * @param value     parameter value
 	 */
 	public void setParam(String paramName, double value);
+	
+	/**
+	 * Get the names of all parameters stored in this object.
+	 * 
+	 * @return names of all parameters
+	 */
+	public Collection<String> getParamNames();
+	
+	/**
+	 * Get the code for the type of {@link IMMData} represented
+	 * by this object.  This is generally defined by the
+	 * class's {@link MMData} annotation.
+	 */
+	public default String getCode() {
+		MMData annotation = this.getClass().getAnnotation(MMData.class);
+		if (annotation == null) {
+			throw new RuntimeException(this.getClass().getSimpleName() +
+					" has no " + MMData.class.getSimpleName() + " annotation");
+		}
+		return annotation.code();
+	}
 }
