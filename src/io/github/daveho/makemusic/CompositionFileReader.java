@@ -6,7 +6,7 @@ import java.util.List;
 
 public class CompositionFileReader {
 	public interface Events {
-		public void onTrack(String trackPath);
+		public void onTrack(String trackPath) throws Throwable;
 	}
 	
 	public void read(Reader r, Events callback) throws IOException {

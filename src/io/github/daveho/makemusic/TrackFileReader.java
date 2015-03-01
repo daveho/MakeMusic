@@ -1,9 +1,7 @@
 package io.github.daveho.makemusic;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,12 +16,12 @@ public class TrackFileReader {
 		 * Called when {@link IMessageGeneratorData} is read.
 		 * @param data the {@link IMessageGeneratorData}
 		 */
-		public void onMessageGeneratorData(IMessageGeneratorData data);
+		public void onMessageGeneratorData(IMessageGeneratorData data) throws Throwable;
 		/**
 		 * Called when {@link ISynthData} is read.
 		 * @param data the {@link ISynthData}
 		 */
-		public void onSynthData(ISynthData data);
+		public void onSynthData(ISynthData data) throws Throwable;
 	}
 	
 	/**
