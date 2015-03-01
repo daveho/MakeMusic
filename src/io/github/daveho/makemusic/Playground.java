@@ -46,19 +46,20 @@ public class Playground {
 	
 	private Thread thread;
 	private PlayerTask task;
+	private CompositionData compositionData;
 
 	public Playground() {
 	}
 	
 	public CompositionPlayer createPlayer() {
-		// FIXME: hard-coded stuff
-		CompositionData compositionData = createCompositionData();
-		
+		if (compositionData == null) {
+			throw new IllegalStateException("No composition data");
+		}
 		CompositionPlayer player = new CompositionPlayer(compositionData);
 		return player;
 	}
 
-	private CompositionData createCompositionData() {
+	private CompositionData createDemoCompositionData() {
 		CompositionData compositionData = new CompositionData();
 		
 		addMetronomeTrack(compositionData);
@@ -113,8 +114,29 @@ public class Playground {
 			}
 			
 			cmd = cmd.trim();
-			if (cmd.equals("start")) {
-				if (thread == null) {
+			if (cmd.equals("demo")) {
+				// Load demo CompositionData
+				compositionData = createDemoCompositionData();
+			} else if (cmd.startsWith("read ")) {
+				String dirName = cmd.substring("read ".length()).trim();
+				DirectoryCompositionDataSource source = new DirectoryCompositionDataSource(dirName);
+				CompositionDataReader cdr = new CompositionDataReader();
+				compositionData = cdr.read(source);
+				System.out.println("Read composition data from " + dirName);
+			} else if (cmd.startsWith("write ")) {
+				if (compositionData == null) {
+					System.out.println("No composition data to write");
+				} else {
+					String dirName = cmd.substring("write ".length()).trim();
+					DirectoryCompositionDataSink sink = new DirectoryCompositionDataSink(dirName);
+					CompositionDataWriter cdw = new CompositionDataWriter();
+					cdw.write(compositionData, sink);
+					System.out.println("Wrote composition data to " + dirName);
+				}
+			} else if (cmd.equals("start")) {
+				if (compositionData == null) {
+					System.out.println("No composition data to play");
+				} else if (thread == null) {
 					task = new PlayerTask();
 					thread = new Thread(task);
 					thread.start();
@@ -137,12 +159,6 @@ public class Playground {
 					thread = null;
 					task = null;
 				}
-			} else if (cmd.startsWith("write ")) {
-				String dirName = cmd.substring("write ".length()).trim();
-				DirectoryCompositionDataSink sink = new DirectoryCompositionDataSink(dirName);
-				CompositionDataWriter cdw = new CompositionDataWriter();
-				cdw.write(createCompositionData(), sink);
-				System.out.println("Wrote composition data to " + dirName);
 			} else if (cmd.equals("quit")) {
 				if (thread != null) {
 					System.out.println("Player thread is running");

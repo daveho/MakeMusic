@@ -22,12 +22,13 @@ public class TokenizingReader {
 				String line = br.readLine();
 				if (line == null) {
 					done = true;
-				}
-				lineNum++;
-				line = line.trim();
-				if (!line.equals("")) {
-					List<String> tokens = Arrays.asList(line.split("\\s+"));
-					callback.onNonEmptyLine(tokens);
+				} else {
+					lineNum++;
+					line = line.trim();
+					if (!line.equals("")) {
+						List<String> tokens = Arrays.asList(line.split("\\s+"));
+						callback.onNonEmptyLine(tokens);
+					}
 				}
 			}
 		} catch (IOException e) {
