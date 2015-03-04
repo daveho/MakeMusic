@@ -4,6 +4,7 @@ import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.EffectsChainData;
 import io.github.daveho.makemusic.data.GervillData;
 import io.github.daveho.makemusic.data.MetronomeData;
+import io.github.daveho.makemusic.data.MidiData;
 import io.github.daveho.makemusic.data.MidiMessageRecorderData;
 import io.github.daveho.makemusic.data.PlayLiveData;
 import io.github.daveho.makemusic.data.TrackData;
@@ -128,6 +129,20 @@ public class Playground {
 		}
 	}
 	
+	private class ListMidiDataCommand implements Command {
+		@Override
+		public void execute(String arg) throws IOException {
+			if (compositionData == null) {
+				System.out.println("No composition data");
+			} else {
+				System.out.printf("Number of MidiData: %d\n", compositionData.getNumMidiData());
+				for (MidiData midiData : compositionData.getMidiDataList()) {
+					System.out.println(midiData.getPath());
+				}
+			}
+		}
+	}
+	
 	private static final int BPM = 100;
 	
 	private Thread thread;
@@ -144,6 +159,7 @@ public class Playground {
 		commandMap.put("start", new StartCommand());
 		commandMap.put("stop", new StopCommand());
 		commandMap.put("quit", new QuitCommand());
+		commandMap.put("lsmid", new ListMidiDataCommand());
 	}
 	
 	public CompositionPlayer createPlayer() {
