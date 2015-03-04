@@ -4,6 +4,7 @@ import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.EffectsChainData;
 import io.github.daveho.makemusic.data.GervillData;
 import io.github.daveho.makemusic.data.MetronomeData;
+import io.github.daveho.makemusic.data.MidiMessageRecorderData;
 import io.github.daveho.makemusic.data.PlayLiveData;
 import io.github.daveho.makemusic.data.TrackData;
 import io.github.daveho.makemusic.playback.CompositionPlayer;
@@ -90,6 +91,11 @@ public class Playground {
 		plmgd.setParam("patch", 54);
 		td.setMessageGeneratorData(plmgd);
 		
+		// Set up a MidiMessageRecorder to record the midi messages
+		// and save them to the CompositionData
+		MidiMessageRecorderData mmrd = new MidiMessageRecorderData();
+		td.addMessageInterceptorData(mmrd);
+		
 		GervillData gd = new GervillData();
 		td.setSynthData(gd);
 		
@@ -164,6 +170,8 @@ public class Playground {
 				} else {
 					done = true;
 				}
+			} else {
+				System.out.println("Unknown command: " + cmd);
 			}
 		}
 		System.out.println("cya");

@@ -38,4 +38,13 @@ public class CompositionData {
 	public int getNumMidiData() {
 		return midiDataList.size();
 	}
+
+	public MidiData findMidiDataWithPath(String path) {
+		for (MidiData midiData : midiDataList) {
+			if (midiData.hasPath() && midiData.getPath().equals(path)) {
+				return midiData;
+			}
+		}
+		return null;
+	}
 }

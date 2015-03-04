@@ -2,6 +2,7 @@ package io.github.daveho.makemusic.playback;
 
 import io.github.daveho.gervill4beads.MidiMessageAndTimeStamp;
 import io.github.daveho.makemusic.IMMData;
+import io.github.daveho.makemusic.IMidiMessageInterceptor;
 import io.github.daveho.makemusic.MMPlayback;
 import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.MidiData;
@@ -10,21 +11,22 @@ import io.github.daveho.makemusic.data.MidiMessageRecorderData;
 import javax.sound.midi.MidiMessage;
 
 /**
- * Record MidiEvents, capturing them in a {@link MidiData} object,
- * while also delegating them to another Receiver.
+ * {@link IMidiMessageInterceptor} implementation which captures
+ * midi messages and their timestamps, saving them to a
+ * {@link MidiData} object to be stored in the {@link CompositionData}.
  * 
  * @author David Hovemeyer
  */
 @MMPlayback(dataClass=MidiMessageRecorderData.class)
 public class MidiMessageRecorder extends AbstractMidiMessageInterceptor {
 	private MidiMessageRecorderData data;
-	private final MidiData midiMessageAndTimestampList;
+	private final MidiData midiData;
 	
 	/**
 	 * Constructor.
 	 */
 	public MidiMessageRecorder() {
-		this.midiMessageAndTimestampList = new MidiData();
+		this.midiData = new MidiData();
 	}
 	
 	@Override
@@ -44,12 +46,33 @@ public class MidiMessageRecorder extends AbstractMidiMessageInterceptor {
 	
 	@Override
 	public void onStartPlayback(CompositionData compositionData) {
-		// TODO: Assign a path (filename) to the resulting data
+		// Assign a path (filename) to the resulting data
+		if (data.hasStringParam("path")) {
+			// A path has already been defined by the MidiMessageRecorderData
+			midiData.setPath(data.getParamAsString("path"));
+		} else {
+			// Assign a path
+			midiData.setPath(findUnusedMidiDataPath(compositionData));
+		}
+		
+		// Add the recording MidiData to the CompositionData
+		compositionData.addMidiData(midiData);
 	}
 	
+	private String findUnusedMidiDataPath(CompositionData compositionData) {
+		int count = 0;
+		while (true) {
+			String candidate = String.format("/midi/recording%04d.txt", count);
+			if (compositionData.findMidiDataWithPath(candidate) == null) {
+				return candidate;
+			}
+			count++;
+		}
+	}
+
 	@Override
 	protected void onMessageReceived(MidiMessage m, long ts) {
-		midiMessageAndTimestampList.add(new MidiMessageAndTimeStamp(m, ts));
+		midiData.add(new MidiMessageAndTimeStamp(m, ts));
 	}
 	
 	/**
@@ -58,6 +81,6 @@ public class MidiMessageRecorder extends AbstractMidiMessageInterceptor {
 	 * @return the {@link MidiData}
 	 */
 	public MidiData getMidiData() {
-		return midiMessageAndTimestampList;
+		return midiData;
 	}
 }
