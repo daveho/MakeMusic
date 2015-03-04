@@ -6,6 +6,7 @@ import io.github.daveho.gervill4beads.ReceivedMidiMessageSource;
 import io.github.daveho.makemusic.IMMData;
 import io.github.daveho.makemusic.IMessageGenerator;
 import io.github.daveho.makemusic.MMPlayback;
+import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.PlayLiveData;
 
 import javax.sound.midi.MidiDevice;
@@ -32,6 +33,11 @@ public class PlayLive implements IMessageGenerator {
 			throw new IllegalArgumentException("Can't create PlayLiveMessageGenerator from " + data.getClass().getSimpleName());
 		}
 		this.data = (PlayLiveData) data;
+	}
+	
+	@Override
+	public void onStartPlayback(CompositionData compositionData) {
+		// Nothing to do currently
 	}
 
 	@Override

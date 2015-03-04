@@ -1,6 +1,8 @@
 package io.github.daveho.makemusic.playback;
 
 import io.github.daveho.makemusic.IMessageGenerator;
+import io.github.daveho.makemusic.IMidiMessageInterceptor;
+import io.github.daveho.makemusic.IMidiMessageInterceptorData;
 import io.github.daveho.makemusic.ISynth;
 import io.github.daveho.makemusic.Registry;
 import io.github.daveho.makemusic.data.CompositionData;
@@ -34,6 +36,12 @@ public class CompositionPlayer {
 			mg.setData(td.getMessageGeneratorData());
 			t.setMessageGenerator(mg);
 			
+			// Create midi message interceptors
+			for (IMidiMessageInterceptorData mmid : td.getMidiMessageInterceptorDataList()) {
+				IMidiMessageInterceptor interceptor = Registry.getInstance().createMidiInterceptor(mmid);
+				t.addMidiMessageInterceptor(interceptor);
+			}
+			
 			// Create Synth
 			ISynth synth = Registry.getInstance().createSynth(td.getSynthData());
 			synth.setData(td.getSynthData());
@@ -50,7 +58,7 @@ public class CompositionPlayer {
 		ac.start();
 		
 		for (Track t : tracks) {
-			t.start(ac);
+			t.start(ac, data);
 		}
 	}
 

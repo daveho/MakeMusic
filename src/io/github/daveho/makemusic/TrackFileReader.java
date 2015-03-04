@@ -17,6 +17,14 @@ public class TrackFileReader {
 		 * @param data the {@link IMessageGeneratorData}
 		 */
 		public void onMessageGeneratorData(IMessageGeneratorData data) throws Throwable;
+		
+		/**
+		 * Called when {@link IMidiMessageInterceptorData} is read.
+		 * @param data the {@link IMidiMessageInterceptorData}
+		 * @throws Throwable
+		 */
+		public void onMidiMessageInterceptorData(IMidiMessageInterceptorData data) throws Throwable;
+		
 		/**
 		 * Called when {@link ISynthData} is read.
 		 * @param data the {@link ISynthData}
@@ -47,6 +55,11 @@ public class TrackFileReader {
 					IMessageGeneratorData data = Registry.getInstance().createMessageGeneratorData(code);
 					ParamUtils.fromTokens(data, tokens);
 					callback.onMessageGeneratorData(data);
+				} else if (cmd.equals("interceptor")) {
+					// Midi message interceptor data
+					IMidiMessageInterceptorData data = Registry.getInstance().createMidiInterceptorData(code);
+					ParamUtils.fromTokens(data, tokens);
+					callback.onMidiMessageInterceptorData(data);
 				} else if (cmd.equals("synth")) {
 					// Synth data
 					ISynthData data = Registry.getInstance().createSynthData(code);

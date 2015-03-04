@@ -1,5 +1,7 @@
 package io.github.daveho.makemusic;
 
+import io.github.daveho.makemusic.data.CompositionData;
+
 /**
  * All playback objects (the runtime counterparts to the classes
  * implementing {@link IMMData}) implement this interface.
@@ -22,4 +24,12 @@ public interface IMMPlayback {
 	 * @param data the data object to set
 	 */
 	public void setData(IMMData data);
+	
+	/**
+	 * Called just before playback starts.
+	 * 
+	 * @param compositionData the {@link CompositionData}, which may be modified
+	 *                        by playback (e.g., to record midi events)
+	 */
+	public void onStartPlayback(CompositionData compositionData);
 }

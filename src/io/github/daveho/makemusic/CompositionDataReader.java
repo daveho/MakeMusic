@@ -38,6 +38,12 @@ public class CompositionDataReader {
 				}
 				
 				@Override
+				public void onMidiMessageInterceptorData(
+						IMidiMessageInterceptorData data) throws Throwable {
+					trackData.addMessageInterceptorData(data);
+				}
+				
+				@Override
 				public void onMessageGeneratorData(IMessageGeneratorData data)
 						throws Throwable {
 					trackData.setMessageGeneratorData(data);
@@ -48,8 +54,6 @@ public class CompositionDataReader {
 		// TODO: right now, EffectsChainData doesn't contain any information
 		EffectsChainData effectsChainData = new EffectsChainData();
 		trackData.setEffectsChainData(effectsChainData);
-		
-		// TODO: track should be able to specify message interceptor data
 		
 		// Add TrackData to CompositionData
 		compositionData.addTrackData(trackData);

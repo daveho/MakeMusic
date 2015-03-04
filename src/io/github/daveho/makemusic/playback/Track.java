@@ -5,15 +5,16 @@ import java.util.List;
 import java.util.ListIterator;
 
 import io.github.daveho.makemusic.IMessageGenerator;
+import io.github.daveho.makemusic.IMidiMessageInterceptor;
 import io.github.daveho.makemusic.ISynth;
-import io.github.daveho.makemusic.MidiMessageInterceptor;
+import io.github.daveho.makemusic.data.CompositionData;
 import net.beadsproject.beads.core.AudioContext;
 import net.beadsproject.beads.core.Bead;
 
 /**
  * A {@Track} is an {@link IMessageGenerator} feeding into an
  * {@link ISynth} (optionally preceeded by one or more
- * {@link MidiMessageInterceptor}s), the synth's output being
+ * {@link AbstractMidiMessageInterceptor}s), the synth's output being
  * processed by an {@link EffectsChain} and then fed into
  * the AudioContext output.
  * 
@@ -23,7 +24,7 @@ public class Track {
 	private IMessageGenerator messageGenerator;
 	private ISynth synth;
 	private EffectsChain effectsChain;
-	private List<MidiMessageInterceptor> interceptorList;
+	private List<IMidiMessageInterceptor> interceptorList;
 	
 	private Bead midiIn;
 	
@@ -43,12 +44,16 @@ public class Track {
 		this.effectsChain = effectsChain;
 	}
 	
-	public void addMidiMessageInterceptor(MidiMessageInterceptor interceptor) {
+	public void addMidiMessageInterceptor(IMidiMessageInterceptor interceptor) {
 		this.interceptorList.add(interceptor);
 	}
 
-	public void start(AudioContext ac) {
+	public void start(AudioContext ac, CompositionData compositionData) {
 //		System.out.println("Start track");
+		
+		// Invoke onStartPlayback methods for all playback objects
+		messageGenerator.onStartPlayback(compositionData);
+		//for ()
 		
 		// Initialize the Synth
 		synth.init(ac);
@@ -57,10 +62,10 @@ public class Track {
 		midiIn = synth.getUGen();
 		
 		// Add any MidiMessageInterceptors
-		for (ListIterator<MidiMessageInterceptor> i = interceptorList.listIterator(interceptorList.size()); i.hasPrevious(); ) {
-			MidiMessageInterceptor interceptor = i.previous();
+		for (ListIterator<IMidiMessageInterceptor> i = interceptorList.listIterator(interceptorList.size()); i.hasPrevious(); ) {
+			IMidiMessageInterceptor interceptor = i.previous();
 			interceptor.setDownstream(midiIn);
-			midiIn = interceptor;
+			midiIn = interceptor.asBead();
 		}
 
 		// Feed MidiEvents from the MessageGenerator to the midi input Bead

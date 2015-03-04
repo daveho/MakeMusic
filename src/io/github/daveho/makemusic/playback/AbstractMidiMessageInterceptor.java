@@ -1,9 +1,10 @@
-package io.github.daveho.makemusic;
+package io.github.daveho.makemusic.playback;
 
 import javax.sound.midi.MidiMessage;
 
 import net.beadsproject.beads.core.Bead;
 import io.github.daveho.gervill4beads.MidiMessageSource;
+import io.github.daveho.makemusic.IMidiMessageInterceptor;
 
 /**
  * Implementation of {@link MidiMessageSource} that intercepts
@@ -14,7 +15,7 @@ import io.github.daveho.gervill4beads.MidiMessageSource;
  * 
  * @author David Hovemeyer
  */
-public abstract class MidiMessageInterceptor extends Bead implements MidiMessageSource {
+public abstract class AbstractMidiMessageInterceptor extends Bead implements MidiMessageSource, IMidiMessageInterceptor {
 	private MidiMessage msg;
 	private long timeStamp;
 	private Bead downstream;
@@ -22,15 +23,13 @@ public abstract class MidiMessageInterceptor extends Bead implements MidiMessage
 	/**
 	 * Constructor.
 	 */
-	public MidiMessageInterceptor() {
+	public AbstractMidiMessageInterceptor() {
 	}
 
-	/**
-	 * Set the downstream Bead, to which MidiMessages should
-	 * be delivered after being intercepted.
-	 * 
-	 * @param downstream the downstream Bead
+	/* (non-Javadoc)
+	 * @see io.github.daveho.makemusic.IMidiMessageInterceptor#setDownstream(net.beadsproject.beads.core.Bead)
 	 */
+	@Override
 	public void setDownstream(Bead downstream) {
 		this.downstream = downstream;
 	}
@@ -57,13 +56,24 @@ public abstract class MidiMessageInterceptor extends Bead implements MidiMessage
 	 */
 	protected abstract void onMessageReceived(MidiMessage m, long ts);
 
+	/* (non-Javadoc)
+	 * @see io.github.daveho.makemusic.IMidiMessageInterceptor#getMessage()
+	 */
 	@Override
 	public MidiMessage getMessage() {
 		return this.msg;
 	}
 
+	/* (non-Javadoc)
+	 * @see io.github.daveho.makemusic.IMidiMessageInterceptor#getTimeStamp()
+	 */
 	@Override
 	public long getTimeStamp() {
 		return this.timeStamp;
+	}
+	
+	@Override
+	public Bead asBead() {
+		return this;
 	}
 }

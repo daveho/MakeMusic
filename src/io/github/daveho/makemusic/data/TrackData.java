@@ -1,16 +1,16 @@
 package io.github.daveho.makemusic.data;
 
+import io.github.daveho.makemusic.IMessageGeneratorData;
+import io.github.daveho.makemusic.IMidiMessageInterceptorData;
+import io.github.daveho.makemusic.ISynthData;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import io.github.daveho.makemusic.IMMData;
-import io.github.daveho.makemusic.IMessageGeneratorData;
-import io.github.daveho.makemusic.ISynthData;
 
 // FIXME: mark with @MMData annotation?
 public class TrackData {
 	private IMessageGeneratorData messageGeneratorData;
-	private List<IMMData> midiMessageInterceptorDataList;
+	private List<IMidiMessageInterceptorData> midiMessageInterceptorDataList;
 	private ISynthData synthData;
 	private EffectsChainData effectsChainData;
 	
@@ -26,8 +26,12 @@ public class TrackData {
 		return messageGeneratorData;
 	}
 	
-	public void addMessageInterceptorData(IMMData data) {
+	public void addMessageInterceptorData(IMidiMessageInterceptorData data) {
 		midiMessageInterceptorDataList.add(data);
+	}
+	
+	public List<IMidiMessageInterceptorData> getMidiMessageInterceptorDataList() {
+		return midiMessageInterceptorDataList;
 	}
 	
 	public void setSynthData(ISynthData synthData) {

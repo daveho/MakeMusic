@@ -4,6 +4,7 @@ import io.github.daveho.gervill4beads.GervillUGen;
 import io.github.daveho.makemusic.IMMData;
 import io.github.daveho.makemusic.ISynth;
 import io.github.daveho.makemusic.MMPlayback;
+import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.GervillData;
 
 import java.util.Collections;
@@ -30,6 +31,11 @@ public class GervillSynth implements ISynth {
 			throw new IllegalStateException("Can't initialize GervillSynth from " + data.getClass().getSimpleName());
 		}
 		this.data = (GervillData) data;
+	}
+	
+	@Override
+	public void onStartPlayback(CompositionData compositionData) {
+		// Nothing to do currently
 	}
 
 	@Override

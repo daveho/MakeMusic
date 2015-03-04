@@ -28,16 +28,21 @@ public class Registry {
 	
 	private Map<Class<? extends IMMData>, Class<? extends IMessageGenerator>> msgGenMap;
 	private Map<Class<? extends IMMData>, Class<? extends ISynth>> synthMap;
+	private Map<Class<? extends IMMData>, Class<? extends IMidiMessageInterceptor>> midiInterceptorMap;	
 	private Map<String, Class<? extends IMMData>> msgGenDataMap;
 	private Map<String, Class<? extends IMMData>> synthDataMap;
+	private Map<String, Class<? extends IMMData>> midiInterceptorDataMap;
 	
 	private Registry() {
 		msgGenMap = new HashMap<>();
 		synthMap = new HashMap<>();
+		midiInterceptorMap = new HashMap<>();
 		msgGenDataMap = new HashMap<>();
 		synthDataMap = new HashMap<>();
+		midiInterceptorDataMap = new HashMap<>();
 		findPlaybackClasses("io.github.daveho.makemusic.playback", IMessageGenerator.class, msgGenMap, msgGenDataMap);
 		findPlaybackClasses("io.github.daveho.makemusic.playback", ISynth.class, synthMap, synthDataMap);
+		findPlaybackClasses("io.github.daveho.makemusic.playback", IMidiMessageInterceptor.class, midiInterceptorMap, midiInterceptorDataMap);
 	}
 	
 	private<E> void findPlaybackClasses(
@@ -87,6 +92,16 @@ public class Registry {
 	public ISynth createSynth(ISynthData data) {
 		return createPlaybackObject(data, ISynth.class, synthMap);
 	}
+	
+	/**
+	 * Create a {@link IMidiMessageInterceptor} using given {@link IMidiMessageInterceptorData}.
+	 * 
+	 * @param data the {@link IMidiMessageInterceptorData}
+	 * @return a {@link IMidiMessageInterceptor}
+	 */
+	public IMidiMessageInterceptor createMidiInterceptor(IMidiMessageInterceptorData data) {
+		return createPlaybackObject(data, IMidiMessageInterceptor.class, midiInterceptorMap);
+	}
 
 	private<E extends IMMPlayback> E createPlaybackObject(IMMData data, Class<E> playbackCls,
 			Map<Class<? extends IMMData>, Class<? extends E>> map) {
@@ -119,6 +134,16 @@ public class Registry {
 	 */
 	public ISynthData createSynthData(String code) {
 		return createDataObject(code, ISynthData.class, synthDataMap);
+	}
+	
+	/**
+	 * Create an {@link IMidiMessageInterceptorData} object with the given code.
+	 * 
+	 * @param code the code (indicating the type of object to create)
+	 * @return the {@link IMidiMessageInterceptorData} object
+	 */
+	public IMidiMessageInterceptorData createMidiInterceptorData(String code) {
+		return createDataObject(code, IMidiMessageInterceptorData.class, midiInterceptorDataMap);
 	}
 	
 	public<E extends IMMData> E createDataObject(String code, Class<E> cls, Map<String, Class<? extends IMMData>> dataMap) {

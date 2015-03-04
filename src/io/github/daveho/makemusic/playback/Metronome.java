@@ -4,6 +4,7 @@ import io.github.daveho.gervill4beads.MidiMessageSource;
 import io.github.daveho.makemusic.IMMData;
 import io.github.daveho.makemusic.IMessageGenerator;
 import io.github.daveho.makemusic.MMPlayback;
+import io.github.daveho.makemusic.data.CompositionData;
 import io.github.daveho.makemusic.data.MetronomeData;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -76,6 +77,11 @@ public class Metronome implements IMessageGenerator {
 			throw new IllegalStateException("Can't initialize Metronome with " + data.getClass().getSimpleName());
 		}
 		this.data = (MetronomeData) data;
+	}
+	
+	@Override
+	public void onStartPlayback(CompositionData compositionData) {
+		// Nothing to do currently
 	}
 
 	@Override
