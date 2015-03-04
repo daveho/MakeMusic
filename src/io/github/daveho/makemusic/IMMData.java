@@ -42,12 +42,28 @@ public interface IMMData {
 	public int getParamAsInt(String paramName);
 	
 	/**
+	 * Get the value of the named parameter as a string.
+	 * 
+	 * @param paramName parameter name
+	 * @return the value of the named parameter as a string
+	 */
+	public String getParamAsString(String paramName);
+	
+	/**
 	 * Set a parameter value.
 	 * 
 	 * @param paramName parameter name
 	 * @param value     parameter value
 	 */
 	public void setParam(String paramName, double value);
+	
+	/**
+	 * Set a parameter value as a string.
+	 * 
+	 * @param paramName parameter name
+	 * @param value     paramete value string
+	 */
+	public void setParam(String paramName, String value);
 	
 	/**
 	 * Get the names of all parameters stored in this object.

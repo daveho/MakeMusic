@@ -55,6 +55,11 @@ public class MidiMessageAndTimestampAsMMData implements IMMData {
 	public int getParamAsInt(String paramName) {
 		return (int) (double) getParam(paramName);
 	}
+	
+	@Override
+	public String getParamAsString(String paramName) {
+		return Double.toString(getParam(paramName));
+	}
 
 	@Override
 	public void setParam(String paramName, double value) {
@@ -75,6 +80,12 @@ public class MidiMessageAndTimestampAsMMData implements IMMData {
 		} else {
 			throw new IllegalArgumentException("Invalid parameter name: " + paramName);
 		}
+	}
+	
+	@Override
+	public void setParam(String paramName, String value) {
+		throw new IllegalArgumentException(MidiMessageAndTimestampAsMMData.class.getSimpleName() +
+				" does not support string-valued parameters");
 	}
 
 	private void ensureDataLen(int len) {
@@ -97,4 +108,6 @@ public class MidiMessageAndTimestampAsMMData implements IMMData {
 		
 		return result;
 	}
+	
+	// TODO: conversion to/from MidiMessageAndTimestamp
 }

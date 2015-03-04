@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractMMData implements IMMData {
-	private Map<String, Double> paramMap;
+	private Map<String, Object> paramMap;
 	
 	public AbstractMMData() {
-		paramMap = new HashMap<String, Double>();
+		paramMap = new HashMap<String, Object>();
 	}
 	
 	@Override
@@ -21,21 +21,34 @@ public abstract class AbstractMMData implements IMMData {
 	
 	@Override
 	public double getParam(String paramName) {
-		return paramMap.get(paramName);
+		return ((Double) paramMap.get(paramName)).doubleValue();
 	}
 	
 	@Override
 	public long getParamAsLong(String paramName) {
-		return (long) paramMap.get(paramName).doubleValue();
+		return (long) getParam(paramName);
 	}
 	
 	@Override
 	public int getParamAsInt(String paramName) {
-		return (int) paramMap.get(paramName).doubleValue();
+		return (int) getParam(paramName);
+	}
+	
+	@Override
+	public String getParamAsString(String paramName) {
+		if (!paramMap.containsKey(paramName)) {
+			throw new IllegalArgumentException("No such parameter: " + paramName);
+		}
+		return paramMap.get(paramName).toString();
 	}
 
 	@Override
 	public void setParam(String paramName, double value) {
+		paramMap.put(paramName, value);
+	}
+	
+	@Override
+	public void setParam(String paramName, String value) {
 		paramMap.put(paramName, value);
 	}
 	
