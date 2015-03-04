@@ -10,6 +10,8 @@ import io.github.daveho.makemusic.data.TrackData;
 import io.github.daveho.makemusic.playback.CompositionPlayer;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import net.beadsproject.beads.core.AudioContext;
@@ -41,13 +43,107 @@ public class Playground {
 		}
 	}
 	
+	private interface Command {
+		public void execute(String arg) throws IOException;
+	}
+	
+	private class DemoCommand implements Command {
+		@Override
+		public void execute(String arg) {
+			// Load demo CompositionData
+			compositionData = createDemoCompositionData();
+		}
+	}
+	
+	private class ReadCommand implements Command {
+		@Override
+		public void execute(String arg) throws IOException {
+			String dirName = arg.trim();
+			DirectoryCompositionDataSource source = new DirectoryCompositionDataSource(dirName);
+			CompositionDataReader cdr = new CompositionDataReader();
+			compositionData = cdr.read(source);
+			System.out.println("Read composition data from " + dirName);
+		}
+	}
+	
+	private class WriteCommand implements Command {
+		@Override
+		public void execute(String arg) throws IOException {
+			if (compositionData == null) {
+				System.out.println("No composition data to write");
+			} else {
+				String dirName = arg.trim();
+				DirectoryCompositionDataSink sink = new DirectoryCompositionDataSink(dirName);
+				CompositionDataWriter cdw = new CompositionDataWriter();
+				cdw.write(compositionData, sink);
+				System.out.println("Wrote composition data to " + dirName);
+			}
+		}
+	}
+	
+	private class StartCommand implements Command {
+		@Override
+		public void execute(String arg) throws IOException {
+			if (compositionData == null) {
+				System.out.println("No composition data to play");
+			} else if (thread == null) {
+				task = new PlayerTask();
+				thread = new Thread(task);
+				thread.start();
+				System.out.println("Started player thread");
+			}
+		}
+	}
+	
+	private class StopCommand implements Command {
+		@Override
+		public void execute(String arg) throws IOException {
+			if (thread != null) {
+				task.setDone(true);
+				thread.interrupt();
+				boolean running;
+				do {
+					try {
+						thread.join();
+					} catch (InterruptedException e) {
+						System.out.println("This should not happen");
+					}
+					running = thread.isAlive();
+				} while (running);
+				System.out.println("Player thread has shut down");
+				thread = null;
+				task = null;
+			}
+		}
+	}
+	
+	private class QuitCommand implements Command {
+		@Override
+		public void execute(String arg) throws IOException {
+			if (thread != null) {
+				System.out.println("Player thread is running");
+			} else {
+				quitCommandLoop = true;
+			}
+		}
+	}
+	
 	private static final int BPM = 100;
 	
 	private Thread thread;
 	private PlayerTask task;
 	private CompositionData compositionData;
+	private Map<String, Command> commandMap;
+	private boolean quitCommandLoop;
 
 	public Playground() {
+		commandMap = new HashMap<>();
+		commandMap.put("demo", new DemoCommand());
+		commandMap.put("read", new ReadCommand());
+		commandMap.put("write", new WriteCommand());
+		commandMap.put("start", new StartCommand());
+		commandMap.put("stop", new StopCommand());
+		commandMap.put("quit", new QuitCommand());
 	}
 	
 	public CompositionPlayer createPlayer() {
@@ -108,8 +204,8 @@ public class Playground {
 	public void commandLoop() throws IOException {
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
-		boolean done = false;
-		while (!done) {
+		quitCommandLoop = false;
+		while (!quitCommandLoop) {
 			System.out.print("> ");
 			System.out.flush();
 			
@@ -119,57 +215,15 @@ public class Playground {
 			}
 			
 			cmd = cmd.trim();
-			if (cmd.equals("demo")) {
-				// Load demo CompositionData
-				compositionData = createDemoCompositionData();
-			} else if (cmd.startsWith("read ")) {
-				String dirName = cmd.substring("read ".length()).trim();
-				DirectoryCompositionDataSource source = new DirectoryCompositionDataSource(dirName);
-				CompositionDataReader cdr = new CompositionDataReader();
-				compositionData = cdr.read(source);
-				System.out.println("Read composition data from " + dirName);
-			} else if (cmd.startsWith("write ")) {
-				if (compositionData == null) {
-					System.out.println("No composition data to write");
-				} else {
-					String dirName = cmd.substring("write ".length()).trim();
-					DirectoryCompositionDataSink sink = new DirectoryCompositionDataSink(dirName);
-					CompositionDataWriter cdw = new CompositionDataWriter();
-					cdw.write(compositionData, sink);
-					System.out.println("Wrote composition data to " + dirName);
-				}
-			} else if (cmd.equals("start")) {
-				if (compositionData == null) {
-					System.out.println("No composition data to play");
-				} else if (thread == null) {
-					task = new PlayerTask();
-					thread = new Thread(task);
-					thread.start();
-					System.out.println("Started player thread");
-				}
-			} else if (cmd.equals("stop")) {
-				if (thread != null) {
-					task.setDone(true);
-					thread.interrupt();
-					boolean running;
-					do {
-						try {
-							thread.join();
-						} catch (InterruptedException e) {
-							System.out.println("This should not happen");
-						}
-						running = thread.isAlive();
-					} while (running);
-					System.out.println("Player thread has shut down");
-					thread = null;
-					task = null;
-				}
-			} else if (cmd.equals("quit")) {
-				if (thread != null) {
-					System.out.println("Player thread is running");
-				} else {
-					done = true;
-				}
+			String arg = "";
+			int space = cmd.indexOf(' ');
+			if (space >= 0) {
+				arg = cmd.substring(space+1);
+				cmd = cmd.substring(0, space);
+			}
+			Command c = commandMap.get(cmd);
+			if (c != null) {
+				c.execute(arg);
 			} else {
 				System.out.println("Unknown command: " + cmd);
 			}
