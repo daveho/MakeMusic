@@ -1,39 +1,37 @@
 package io.github.daveho.makemusic;
 
 import io.github.daveho.gervill4beads.MidiMessageAndTimeStamp;
-
-import java.util.ArrayList;
-import java.util.List;
+import io.github.daveho.makemusic.data.MidiData;
 
 import javax.sound.midi.MidiMessage;
 
 /**
- * Record MidiEvents, while also delegating them to another
- * Receiver.
+ * Record MidiEvents, capturing them in a {@link MidiData} object,
+ * while also delegating them to another Receiver.
  * 
  * @author David Hovemeyer
  */
 public class MidiMessageRecorder extends MidiMessageInterceptor {
-	private final List<MidiMessageAndTimeStamp> messages;
+	private final MidiData midiMessageAndTimestampList;
 	
 	/**
 	 * Constructor.
 	 */
 	public MidiMessageRecorder() {
-		this.messages = new ArrayList<MidiMessageAndTimeStamp>();
+		this.midiMessageAndTimestampList = new MidiData();
 	}
 	
 	@Override
 	protected void onMessageReceived(MidiMessage m, long ts) {
-		messages.add(new MidiMessageAndTimeStamp(m, ts));
+		midiMessageAndTimestampList.add(new MidiMessageAndTimeStamp(m, ts));
 	}
 	
 	/**
-	 * Get recorded MidiMessages (and their timestamps).
+	 * Get the {@link MidiData}.
 	 * 
-	 * @return recorded MidiMessages and timestamps
+	 * @return the {@link MidiData}
 	 */
-	public List<MidiMessageAndTimeStamp> getMessages() {
-		return messages;
+	public MidiData getMidiData() {
+		return midiMessageAndTimestampList;
 	}
 }

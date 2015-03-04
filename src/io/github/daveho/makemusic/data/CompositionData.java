@@ -8,9 +8,11 @@ import java.util.List;
 @MMData(code="cd")
 public class CompositionData {
 	private List<TrackData> trackDataList;
+	private List<MidiData> midiDataList;
 	
 	public CompositionData() {
-		trackDataList = new ArrayList<TrackData>();
+		trackDataList = new ArrayList<>();
+		midiDataList = new ArrayList<>();
 	}
 	
 	public void addTrackData(TrackData trackData) {
@@ -23,5 +25,17 @@ public class CompositionData {
 
 	public int getNumTracks() {
 		return trackDataList.size();
+	}
+	
+	public void addMidiData(MidiData midiData) {
+		midiDataList.add(midiData);
+	}
+	
+	public List<MidiData> getMidiDataList() {
+		return midiDataList;
+	}
+	
+	public int getNumMidiData() {
+		return midiDataList.size();
 	}
 }
