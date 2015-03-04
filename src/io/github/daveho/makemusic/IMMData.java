@@ -18,6 +18,15 @@ public interface IMMData {
 	public boolean hasParam(String paramName);
 	
 	/**
+	 * Determine whether the object has a string-valued parameter with
+	 * the given parameter name.
+	 * 
+	 * @param paramName parameter name
+	 * @return true if the object has the named parameter as a string value, false otherwise
+	 */
+	public boolean hasStringParam(String paramName);
+	
+	/**
 	 * Get the value of the named parameter.
 	 * 
 	 * @param paramName parameter name

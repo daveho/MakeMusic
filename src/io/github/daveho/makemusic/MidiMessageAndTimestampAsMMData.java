@@ -28,6 +28,12 @@ public class MidiMessageAndTimestampAsMMData implements IMMData {
 			return false;
 		}
 	}
+	
+	@Override
+	public boolean hasStringParam(String paramName) {
+		// This type of object has no string-valued parameters
+		return false;
+	}
 
 	@Override
 	public double getParam(String paramName) {

@@ -20,6 +20,14 @@ public abstract class AbstractMMData implements IMMData {
 	}
 	
 	@Override
+	public boolean hasStringParam(String paramName) {
+		if (!hasParam(paramName)) {
+			return false;
+		}
+		return paramMap.get(paramName) instanceof String;
+	}
+	
+	@Override
 	public double getParam(String paramName) {
 		return ((Double) paramMap.get(paramName)).doubleValue();
 	}
